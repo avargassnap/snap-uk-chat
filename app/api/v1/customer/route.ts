@@ -1,0 +1,2 @@
+// this should be a POST request to get the customer data from the database, we can use mock data for now
+// TODO: implement middleware with an api key so only this client can access this route or others from this server
