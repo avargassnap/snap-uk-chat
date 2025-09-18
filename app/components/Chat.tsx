@@ -102,7 +102,7 @@ const SnapFinanceChat = () => {
     }
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
 
     if (currentStep === 'collect_info') {
@@ -120,6 +120,20 @@ const SnapFinanceChat = () => {
         const randomResponse = responses[Math.floor(Math.random() * responses.length)];
         addBotMessage(randomResponse);
       }, 1000);
+      const res = await fetch('/api/v1/customer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: inputValue })
+      });
+      console.log(res);
+      const data = await res.json();
+
+      if (res.ok && data.response) {
+        addBotMessage(data.response);
+      } else {
+        addBotMessage("Oops! Something went wrong while fetching the answer.");
+      }
+
     }
 
     setInputValue('');
